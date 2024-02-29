@@ -1,33 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-export class List extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView>
-          <View>
-            {this.props.images.map((img) => {
-              return (
-                <View key={img.url.uri}>
-                  <Pressable onPress={() => this.props.navigation.navigate('Image')}>
-                    <View style={styles.section}>
-                      <Image
-                        style={styles.image}
-                        source={img.url}
-                      />
-                      <Text style={styles.item}>{img.name} by {img.auther}</Text>
-                    </View>
-                  </Pressable>
-                </View>
-              );
-            })}
-          </View>
-        </ScrollView>
-      </View>
-    );
-  }
+export function List() {
+  const { images } = useContext(ElementsContext);
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        <View>
+          {images.map((img) => {
+            return (
+              <View key={img.url.uri}>
+                <Pressable onPress={() => navigation.navigate('Image')}>
+                  <View style={styles.section}>
+                    <Image
+                      style={styles.image}
+                      source={img.url}
+                    />
+                    <Text style={styles.item}>{img.name} by {img.auther}</Text>
+                  </View>
+                </Pressable>
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
+    </View>
+  );
 }
+
 
 const styles = StyleSheet.create({
   container: {

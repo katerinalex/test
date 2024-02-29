@@ -1,12 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 
-import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import List from './List';
 import ImageBig from './ImageBig';
+
+
+export const ElementsContext = createContext({
+  elements: [],
+  setElements: () => {},
+});
 
 const Stack = createStackNavigator();
 
@@ -41,18 +47,20 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={<List images={images} />}
-        />
-        <Stack.Screen
-          name="Image"
-          component={<ImageBig image={images[0]}  />}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ElementsContext.Provider value={{images, setImages}} >
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={List}
+          />
+          <Stack.Screen
+            name="Image"
+            component={ImageBig}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ElementsContext.Provider>
   );
 }
 
